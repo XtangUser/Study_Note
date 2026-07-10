@@ -1,0 +1,26 @@
+slam_toolbox:
+  ros__parameters:
+    use_sim_time: true
+    odom_frame: odom
+    map_frame: map
+    base_frame: base_link
+    scan_topic: /scan
+    mode: mapping
+
+    # 粒子滤波鲁棒性
+    max_particles: 3000
+    min_particles: 1000
+    map_update_interval: 0.5
+    minimum_travel_distance: 0.05
+    minimum_travel_rotation: 0.03
+    max_laser_range: 8.0
+
+    # 差分运动模型噪声，补偿里程计漂移
+    motion_model: diff_drive
+    odometry_std_linear: 0.05
+    odometry_std_angular: 0.08
+    odometry_std_linear_drift: 0.01
+    odometry_std_angular_drift: 0.02
+
+    laser_likelihood_max_dist: 2.0
+    scan_buffer_size: 10

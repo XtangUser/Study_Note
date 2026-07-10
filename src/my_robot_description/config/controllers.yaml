@@ -1,0 +1,55 @@
+# ============================================================
+# 文件: config/controllers.yaml
+# 优化版：稳定性和建图效果更好
+# ============================================================
+
+controller_manager:
+  ros__parameters:
+    update_rate: 100  # ⭐ 提高到100Hz
+
+    joint_state_broadcaster:
+      type: joint_state_broadcaster/JointStateBroadcaster
+
+    diff_drive_controller:
+      type: diff_drive_controller/DiffDriveController
+
+
+diff_drive_controller:
+  ros__parameters:
+    left_wheel_names:  ["left_wheel_joint"]
+    right_wheel_names: ["right_wheel_joint"]
+
+    # ⭐ 必须和URDF严格一致
+    wheel_separation: 0.36
+    wheel_radius: 0.06
+
+    wheel_separation_multiplier: 1.0
+    left_wheel_radius_multiplier: 1.0
+    right_wheel_radius_multiplier: 1.0
+
+    # ⭐ 提高发布频率
+    publish_rate: 100.0
+    odom_frame_id: odom
+    base_frame_id: base_footprint
+
+    # ⭐ 使用标准协方差（不要放大）
+    pose_covariance_diagonal:  [0.001, 0.001, 0.001, 0.001, 0.001, 0.01]
+    twist_covariance_diagonal: [0.001, 0.001, 0.001, 0.001, 0.001, 0.01]
+
+    enable_odom_tf: true
+
+    # ⭐ 正确的参数名
+    cmd_vel_timeout: 0.5
+
+    # ⭐ 保留一定的响应速度
+    linear.x.max_velocity: 1.0
+    linear.x.min_velocity: -1.0
+    linear.x.max_acceleration: 2.0
+    linear.x.min_acceleration: -2.0
+
+    angular.z.max_velocity: 2.0
+    angular.z.min_velocity: -2.0
+    angular.z.max_acceleration: 3.0
+    angular.z.min_acceleration: -3.0
+
+    use_stamped_vel: false

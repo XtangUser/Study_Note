@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<!--
+  ============================================================
+  文件: caster_wheel.xacro
+  功能: 定义万向轮（支撑轮）
+  
+  说明:
+    万向轮用球体来模拟，因为球体可以向任意方向滚动
+    这里放置前后两个万向轮，保持底盘稳定
+    
+    摩擦力设为0，这样球体不会阻碍机器人运动
+    （真实万向轮也是几乎无阻力的）
+  ============================================================
+-->
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <!-- ====== 万向轮宏定义 ====== -->
+  <!--
+    参数:
+      prefix     - 名称前缀 ("front" 或 "rear")
+      x_reflect  - X方向系数 (1=前方, -1=后方)
+  -->
+  <xacro:macro name="caster_wheel" params="prefix x_reflect">
+
+    <!-- 万向轮link -->
+    <link name="${prefix}_caster_link">
+      <visual>
+        <geometry>
+          <sphere radius="${caster_radius}" />
+        </geometry>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <material name="black" />
+      </visual>
+
+      <collision>
+        <geometry>
+          <sphere radius="${caster_radius}" />
+        </geometry>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+      </collision>
+
+      <xacro:sphere_inertia m="${caster_mass}" r="${caster_radius}" />
+    </link>
+    <joint name="${prefix}_caster_joint" type="fixed">
+      <parent link="base_link" />
+      <child link="${prefix}_caster_link" />
+      <origin 
+        xyz="${x_reflect * caster_offset_x} 0 ${caster_offset_z}" 
+        rpy="0 0 0" />
+    </joint>
+
+  </xacro:macro>
+
+  <xacro:caster_wheel prefix="front" x_reflect="1" />
+  <xacro:caster_wheel prefix="rear"  x_reflect="-1" />
+
+</robot>
