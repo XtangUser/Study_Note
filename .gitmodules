@@ -1,0 +1,3 @@
+[submodule "d2l_ros2"]
+	path = d2l_ros2
+	url = https://github.com/fishros/d2l-ros2.git
